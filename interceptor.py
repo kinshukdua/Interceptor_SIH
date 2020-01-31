@@ -107,11 +107,12 @@ if flag:
     optim = opt.minimize(func2, x0=(len(final) + 1), bounds = ((1, len(interceptors) + 1),)).x
     optim = round(optim[0])
     plt.scatter(optim,func2(optim),marker='x',color='black',s=100)
-    plt.savefig('4.png')
+    #plt.savefig('4.png')
     print("Optimal solution require these",ind,"interceptors: ")
     result = [i[0] for i in x[:ind]]
     print(result)
     print("In order of importance")
+    plt.show()
 else:
     print("Some missiles out of range.")
 #print(delta)
