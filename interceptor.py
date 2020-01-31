@@ -92,7 +92,7 @@ if flag:
             sum_ += i**2
         sums.append(sum_)
         sums_inv.append(1/(sum_))       
-    plt.plot(ns,sums_inv)
+    #plt.plot(ns,sums_inv)
     #plt.plot(ns,sums)
     delta = [sums_inv[i+1]-sums_inv[i] for i in range(0,len(sums)-1)]
     popt, pcov = opt.curve_fit(func, ns, sums_inv)
@@ -100,13 +100,13 @@ if flag:
         return popt[0]*np.exp(-popt[1]*x)+popt[2]
     y = [func2(i) for i in ns]
     plt.plot(ns,y)
-    plt.title('Continuous vs Discrete Inverse Probability Function ')
+    plt.title('Optimal Interceptors.')
     plt.ylabel('Inverse of probability')
     plt.xlabel('Number of interceptors')
     ind = round(float(opt.minimize(func2,x0=(len(final)+1),bounds = ((1,len(interceptors)+1),)).x))
-    optim = opt.minimize(func2, x0=(len(final) + 1), bounds = ((1, len(interceptors) + 1),)).x
+    optim = opt.minimize(func2, x0=(len(final)), bounds = ((1, len(interceptors) + 1),)).x
     optim = round(optim[0])
-    plt.scatter(optim,func2(optim),marker='x',color='black',s=100)
+    plt.scatter(optim,func2(optim),marker='x',color='black',s=150)
     #plt.savefig('4.png')
     print("Optimal solution require these",ind,"interceptors: ")
     result = [i[0] for i in x[:ind]]
