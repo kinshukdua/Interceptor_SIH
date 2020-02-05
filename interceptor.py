@@ -38,13 +38,11 @@ missiles = [(0.29, 3.32, 8.78),
  (5.44, 8.41, 8.66),
  (1.2, 6.22, 4.94),
  (7.87, 5.05, 3.85),
-
  (8.17, 3.59, 9.28),
  (0.41, 2.77, 8.58),
  (9.1, 0.16, 7.85),
  (1.22, 3.15, 4.24),
  (8.99, 8.61, 0.43),
-
  (1.39, 0.68, 8.6),
  (4.35, 3.29, 2.34),
  (4.75, 0.99, 0.91),
@@ -100,7 +98,7 @@ if flag:
         return popt[0]*np.exp(-popt[1]*x)+popt[2]
     y = [func2(i) for i in ns]
     plt.plot(ns,y)
-    plt.title('Optimal Interceptors.')
+    plt.title('Optimal Interceptors')
     plt.ylabel('Inverse of probability')
     plt.xlabel('Number of interceptors')
     ind = round(float(opt.minimize(func2,x0=(len(final)+1),bounds = ((1,len(interceptors)+1),)).x))
