@@ -8,4 +8,5 @@ hit probability
 range
 (different for each)
 output the graph with point
-
+try norm for additive (didn't work X)
+try bernouli trials in multiplicative
