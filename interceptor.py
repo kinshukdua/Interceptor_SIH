@@ -1,7 +1,7 @@
 from matplotlib import pyplot as plt
 import numpy as np
 from scipy import optimize as opt
-
+miss_prob = 0.01
 range_ = 109
 sums = []
 sums_inv = []
@@ -87,7 +87,7 @@ if flag:
                 m_prob[m] += 1
         ns.append(n)
         for i in m_prob.values():
-            sum_ += i**2
+            sum_ += 1-miss_prob**i
         sums.append(sum_)
         sums_inv.append(1/(sum_))       
     #plt.plot(ns,sums_inv)
