@@ -1,7 +1,7 @@
 from matplotlib import pyplot as plt
 import numpy as np
 from scipy import optimize as opt
-
+hit_prob=0.99
 range_ = 109
 sums = []
 sums_inv = []
@@ -38,13 +38,11 @@ missiles = [(0.29, 3.32, 8.78),
  (5.44, 8.41, 8.66),
  (1.2, 6.22, 4.94),
  (7.87, 5.05, 3.85),
-
  (8.17, 3.59, 9.28),
  (0.41, 2.77, 8.58),
  (9.1, 0.16, 7.85),
  (1.22, 3.15, 4.24),
  (8.99, 8.61, 0.43),
-
  (1.39, 0.68, 8.6),
  (4.35, 3.29, 2.34),
  (4.75, 0.99, 0.91),
@@ -86,7 +84,12 @@ if flag:
                 """
                 IMPORTANT VARIABLE m_prob[] == ????
                 """
-                m_prob[m] += 1
+                if m_prob[m] == 0:
+                    m_prob[m] += hit_prob 
+                else:
+                    temp = 1-m_prob[m]
+                    temp = temp*(1-hit_prob)
+                    m_prob[m] = 1-temp
         ns.append(n)
         for i in m_prob.values():
             sum_ += i**2
