@@ -87,7 +87,7 @@ if flag:
                 m_prob[m] += 1
         ns.append(n)
         for i in m_prob.values():
-            sum_ += 1-miss_prob**i
+            sum_ += (1-miss_prob**i)**2
         sums.append(sum_)
         sums_inv.append(1/(sum_))       
     #plt.plot(ns,sums_inv)
@@ -101,7 +101,7 @@ if flag:
     plt.title('Optimal Interceptors')
     plt.ylabel('Inverse of probability')
     plt.xlabel('Number of interceptors')
-    ind = round(float(opt.minimize(func2,x0=(len(final)+1),bounds = ((1,len(interceptors)+1),)).x))
+    ind = round(float(opt.minimize(func2,x0=(len(final)),bounds = ((1,len(interceptors)+1),)).x))
     optim = opt.minimize(func2, x0=(len(final)), bounds = ((1, len(interceptors) + 1),)).x
     optim = round(optim[0])
     plt.scatter(optim,func2(optim),marker='x',color='black',s=150)
