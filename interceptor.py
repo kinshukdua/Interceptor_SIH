@@ -36,7 +36,7 @@ def exp(x,a,b,c):
     return a * np.exp(-b * x) + c
 def exp_prime(x,a,b,c):
     return -a * b * np.exp(-b * x) + c
-
+dic = {}
 interceptors = [(8.62, 1.92),
  (0.44, 3.68),
  (8.59, 9.29),
@@ -72,6 +72,7 @@ missiles = [(0.29, 3.32, 8.78),
 interceptors = [Interceptor(i[0],i[1],range_) for i in interceptors]
 missiles = [Missile(m[0],m[1],m[2]) for m in missiles]
 
+target_dic = {i:tuple([m for m in missiles if i.in_range(m)]) for i in interceptors}
 
 
 """
