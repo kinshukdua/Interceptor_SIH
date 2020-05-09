@@ -3,6 +3,7 @@ import numpy as np
 from scipy import optimize as opt
 
 range_ = np.sqrt(109)
+miss_prob = 0.1
 class Interceptor:
     def __init__(self,latitude,longitude,range_):
         self.x = latitude
@@ -12,6 +13,8 @@ class Interceptor:
         return self.x
     def get_y(self):
         return self.y
+    def __repr__(self):
+        return f"Interceptor <{self.x}, {self.y}>"
     def in_range(self,missile):
         x0 = self.x
         y0 = self.y
@@ -31,6 +34,8 @@ class Missile:
         return self.y
     def get_z(self):
         return self.z
+    def __repr__(self):
+        return f"Missile <{self.x}, {self.y}, {self.z}>"
 
 def exp(x,a,b,c):
     return a * np.exp(-b * x) + c
@@ -73,10 +78,48 @@ interceptors = [Interceptor(i[0],i[1],range_) for i in interceptors]
 missiles = [Missile(m[0],m[1],m[2]) for m in missiles]
 
 target_dic = {i:tuple([m for m in missiles if i.in_range(m)]) for i in interceptors}
+target_list = sorted(target_dic.items(),key=lambda x: len(x[1]), reverse= True)
 
+def min_interceptor(interceptors,missiles):
+    interceptor_list = []
+    for interceptor,targets in target_list:
+        interceptor_list.append(interceptor)
+        for m in targets:
+            if m in missiles:
+                missiles.remove(m)
+        if not missiles:
+                print("all incoming missiles targetted")
+                return interceptor_list
+    else:
+        return False
+def fitness(target_list,missiles):
+    def fit_func_bernoulli(i):
+        return (1-miss_prob**i)**2
+    def fit_func_add(i):
+        return i**2
+    
+    m_prob = {x:0 for x in missiles}
+    for _,targets in target_list:
+        for m in targets:
+            m_prob[m] += 1 
+    fitness_val = sum(map(fit_func_bernoulli,m_prob.values()))
+    return fitness_val
+def inv_fitness(target_list,missiles):
+    return 1/fitness(target_list,missiles)
+def curve_fit(exp,n,vals):
+    popt, pcov = opt.curve_fit(exp, n, vals)
+    def optim(x):
+        return exp(x,popt[0],popt[1],popt[2])
+    return optim
+
+fits = [fitness(target_list[:i],missiles) for i in range(1,len(target_list)+1)]
+inv_fits = [inv_fitness(target_list[:i],missiles) for i in range(len(target_list)+1)]
+'''
+plt.plot(range(1,len(target_list)+1),inv_fits)
+plt.show()
+'''
 
 """
-
 sums = []
 sums_inv = []
 ns = []
